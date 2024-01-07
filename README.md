@@ -1,1 +1,1 @@
-I realizse that I spelled the name wrong :(
+I realized that I spelled the name wrong :(
