@@ -7,15 +7,19 @@
 // defines pins
 #define stepPin 2 
 #define dirPin 5 
+#define sensorPin A0 //pin for RFID reader to input
 
- int currentpos = 1; // options are 1 through 5, we assume by default that we start
- 
+int currentpos = 1; // options are 1 through 5, we assume by default that we start
 void setup() {
   // Sets the two pins as Outputs
   pinMode(stepPin,OUTPUT); 
   pinMode(dirPin,OUTPUT);
-  Serial.begin(9600); //baud rate -- low baud rate but 
+  Serial.begin(9600); //baud rate 
+
 }
+
+//future work -- interrupts for RFID reads and to not consistantly poll for serial interrupts to allow for function
+// currenrtly with the arduino mini I am using, there can only be digital inputs for interrupts so it does not make sense in this input
 
 
 void loop() {
@@ -23,10 +27,22 @@ void loop() {
   int nextpos; // default // error value
   int rotvalue=0;
   int pulse;
+  int sensorValue = 0;
 
+  //getting RFID reader
+  sensorValue = analogRead(sensorPin);
+
+  //Valuse should be 5V however we allow for incorrect readings because this is an adrino
+  if(sensorValue > 1000) {
+    Serial.print("RFID Triggered\n");
+    Serial.println(sensorValue,DEC);
+  }
 
   // Serial Terminal to tell what position to go to
   if (Serial.available() > 0) {
+    
+    
+  
     //serial tell us what 
     nextpos = Serial.read() - '0';
 
